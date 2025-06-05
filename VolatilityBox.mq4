@@ -4,7 +4,7 @@
 //|                                       http://www.companyname.net |
 //+------------------------------------------------------------------+
 #property indicator_chart_window
-#property version "2.0"
+#property version "3.0"
 #property strict
 
 input int DaysLimit = 10;
@@ -17,6 +17,7 @@ input string InpFromTime = "00:00";
 
 double g_ThresholdInPoint;
 datetime g_limitDate, g_lastCheck;
+const string PREFIX = "DayRangeBox_";
 
 //+------------------------------------------------------------------+
 //|                                                                  |
@@ -96,6 +97,28 @@ int OnInit()
 
     return (INIT_SUCCEEDED);
    }
+
+//+------------------------------------------------------------------+
+//| Delete all objects with matching prefix                          |
+//+------------------------------------------------------------------+
+void DeleteObject(const string& prefix)
+   {
+    for(int i = ObjectsTotal() - 1; i >= 0; i--)
+       {
+        string name = ObjectName(i);
+        if(StringFind(name, prefix) != -1)
+            ObjectDelete(0, name);
+       }
+   }
+
+//+------------------------------------------------------------------+
+//| Deinitialization                                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+   {
+    DeleteObject(PREFIX);
+   }
+
 //+------------------------------------------------------------------+
 //| Custom indicator iteration function                              |
 //+------------------------------------------------------------------+
@@ -145,7 +168,7 @@ int OnCalculate(const int rates_total,
 
             if((highest - lowest) >= g_ThresholdInPoint)
                {
-                rectName = "DayRangeBox_" + TimeToString(dayTime, TIME_DATE);
+                rectName = PREFIX + TimeToString(dayTime, TIME_DATE);
                 if(ObjectFind(0, rectName) != -1)
                     continue;
 
