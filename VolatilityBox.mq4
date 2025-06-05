@@ -7,9 +7,13 @@
 #property version "1.0"
 #property strict
 
-input string InpFromTime = "00:00"; // Range Start Time
+input int DaysLimit = 10;
 input double _ThresholdInPoint = 500;
-input int DaysLimit = 1;
+input color InpColor = clrPlum;
+input ENUM_LINE_STYLE InpStyle = STYLE_SOLID;
+input int InpWidth = 2;
+input bool InpFill = true;
+input string InpFromTime = "00:00"; // Range Start Time
 
 double g_ThresholdInPoint;
 datetime g_limitDate, g_lastCheck;
@@ -153,7 +157,7 @@ int OnCalculate(const int rates_total,
                     recHighest = recLowest + g_ThresholdInPoint;
                    }
 
-                RectangleCreate(0, rectName, zoneStartTime, recHighest, zoneEndTime, recLowest);
+                RectangleCreate(0, rectName, zoneStartTime, recHighest, zoneEndTime, recLowest, InpColor, InpStyle, InpWidth, InpFill);
                 g_lastCheck = dayTime;
 
                 break;
@@ -173,10 +177,10 @@ bool RectangleCreate(const long chart_ID,                       // chart's ID
                      double price1,                             // first point price
                      datetime time2,                            // second point time
                      double price2,                             // second point price
-                     const color clr = clrRed,                  // rectangle color
-                     const ENUM_LINE_STYLE style = STYLE_SOLID, // style of rectangle lines
-                     const int width = 2,                       // width of rectangle lines
-                     const bool fill = false,                   // filling rectangle with color
+                     const color clr,                   // rectangle color
+                     const ENUM_LINE_STYLE style,  // style of rectangle lines
+                     const int width,                        // width of rectangle lines
+                     const bool fill,                   // filling rectangle with color
                      const bool back = false,                   // in the background
                      const bool selection = true,               // highlight to move
                      const bool hidden = false,                 // hidden in the object list
