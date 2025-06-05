@@ -4,7 +4,7 @@
 //|                                       http://www.companyname.net |
 //+------------------------------------------------------------------+
 #property indicator_chart_window
-#property version "3.0"
+#property version "3.1"
 #property strict
 
 input int DaysLimit = 10;
@@ -154,7 +154,7 @@ int OnCalculate(const int rates_total,
         dayIndex = iBarShift(Symbol(), PERIOD_D1, dayTime);
         zoneStartTime = CreateDatetimeFromTimeString(InpFromTime, dayTime);
         zoneStartIndex = iBarShift(Symbol(), PERIOD_CURRENT, zoneStartTime);
-        zoneEndTime = dayIndex - 1 < 0 ? dayTime + PeriodSeconds(PERIOD_D1) : iTime(Symbol(), PERIOD_D1, i - 1);
+        zoneEndTime = dayIndex - 1 < 0 ? dayTime + PeriodSeconds(PERIOD_D1) : iTime(Symbol(), PERIOD_D1, dayIndex - 1);
         zoneEndIndex = dayIndex - 1 < 0 ? 0 : iBarShift(Symbol(), PERIOD_CURRENT, zoneEndTime);
 
         for(int x = zoneStartIndex; x > zoneEndIndex; x--)
