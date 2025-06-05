@@ -8,12 +8,12 @@
 #property strict
 
 input int DaysLimit = 10;
-input double _ThresholdInPoint = 500;
+input double _ThresholdInPoint = 1200;
 input color InpColor = clrPlum;
 input ENUM_LINE_STYLE InpStyle = STYLE_SOLID;
 input int InpWidth = 2;
 input bool InpFill = true;
-input string InpFromTime = "00:00"; // Range Start Time
+input string InpFromTime = "00:00";
 
 double g_ThresholdInPoint;
 datetime g_limitDate, g_lastCheck;
@@ -51,7 +51,7 @@ datetime CreateDatetimeFromTimeString(const string &timeStr, datetime currentTim
 //+------------------------------------------------------------------+
 //| Get high and low price within a candle range                     |
 //+------------------------------------------------------------------+
-void GetHighLowBetweenCandles(int index1, int index2, double &highest, double &lowest, bool& bullishFlag)
+void GetHighLowBetweenCandles(int index1, int index2, double &highest, double &lowest, bool &bullishFlag)
    {
 
     int minIndex = MathMin(index1, index2);
@@ -146,6 +146,9 @@ int OnCalculate(const int rates_total,
             if((highest - lowest) >= g_ThresholdInPoint)
                {
                 rectName = "DayRangeBox_" + TimeToString(dayTime, TIME_DATE);
+                if(ObjectFind(0, rectName) != -1)
+                    continue;
+
                 if(isBull)
                    {
                     recHighest = highest;
@@ -171,20 +174,20 @@ int OnCalculate(const int rates_total,
 //+------------------------------------------------------------------+
 //|                                                                  |
 //+------------------------------------------------------------------+
-bool RectangleCreate(const long chart_ID,                       // chart's ID
-                     const string name,                         // rectangle name
-                     datetime time1,                            // first point time
-                     double price1,                             // first point price
-                     datetime time2,                            // second point time
-                     double price2,                             // second point price
-                     const color clr,                   // rectangle color
-                     const ENUM_LINE_STYLE style,  // style of rectangle lines
-                     const int width,                        // width of rectangle lines
-                     const bool fill,                   // filling rectangle with color
-                     const bool back = false,                   // in the background
-                     const bool selection = true,               // highlight to move
-                     const bool hidden = false,                 // hidden in the object list
-                     const long z_order = 0)                    // priority for mouse click
+bool RectangleCreate(const long chart_ID,         // chart's ID
+                     const string name,           // rectangle name
+                     datetime time1,              // first point time
+                     double price1,               // first point price
+                     datetime time2,              // second point time
+                     double price2,               // second point price
+                     const color clr,             // rectangle color
+                     const ENUM_LINE_STYLE style, // style of rectangle lines
+                     const int width,             // width of rectangle lines
+                     const bool fill,             // filling rectangle with color
+                     const bool back = false,     // in the background
+                     const bool selection = true, // highlight to move
+                     const bool hidden = false,   // hidden in the object list
+                     const long z_order = 0)      // priority for mouse click
    {
     ResetLastError();
 //--- create a rectangle by the given coordinates
