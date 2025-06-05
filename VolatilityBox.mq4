@@ -4,7 +4,7 @@
 //|                                       http://www.companyname.net |
 //+------------------------------------------------------------------+
 #property indicator_chart_window
-#property version "1.0"
+#property version "2.0"
 #property strict
 
 input int DaysLimit = 10;
