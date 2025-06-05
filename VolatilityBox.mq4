@@ -4,7 +4,7 @@
 //|                                       http://www.companyname.net |
 //+------------------------------------------------------------------+
 #property indicator_chart_window
-#property version "3.1"
+#property version "3.2"
 #property strict
 
 input int DaysLimit = 10;
@@ -63,7 +63,7 @@ void GetHighLowBetweenCandles(int index1, int index2, double &highest, double &l
 
     int highestIndex = 0;
     int lowestIndex = 0;
-    for(int i = minIndex; i <= maxIndex; i++)
+    for(int i = minIndex+1; i <= maxIndex; i++)
        {
         if(High[i] > highest)
            {
